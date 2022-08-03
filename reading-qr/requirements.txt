@@ -1,0 +1,4 @@
+-r ../common_python/requirements.txt
+
+qrcode
+opencv-contrib-python
