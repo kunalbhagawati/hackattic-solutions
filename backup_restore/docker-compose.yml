@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  postgres:
+    container_name: "${BACKUP_RESTORE__CONTAINER_NAME}"
+    image: "postgres:latest"
+    restart: always
+#    volumes:
+#      - ".docker-data/postgres:/var/lib/postgresql/data"
+    ports:
+      - "${POSTGRES__PORT}:5432"
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES__PASSWORD}"
+      POSTGRES_USER: "${POSTGRES__USERNAME}"
+      POSTGRES_DB: "${POSTGRES__DBNAME}"
