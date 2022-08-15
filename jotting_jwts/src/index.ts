@@ -17,6 +17,13 @@ type JwtPayload = {
   append: string
 }
 
+/**
+ * Get the payload as a string from the request body.
+ *
+ * The trick here is that the request headers don't have `Content-Type`.
+ * Since `http` doesn't do body parsing by default, and all content negotiation libraries explicitly require
+ * the `Content-Type` header to work properly, we need to parse the body ourselves explicitly.
+ */
 const getJwtPayload = async (req: IncomingMessage): Promise<string> => {
   const buffers = []
 
@@ -29,12 +36,14 @@ const getJwtPayload = async (req: IncomingMessage): Promise<string> => {
   return jwt_payload
 }
 
+/**
+ * Receive the requests from hackattic and reply appropriately _while_ adding to the solution string if applicable.
+ */
 const requestListener: RequestListener = async (req, res) => {
   const jwtPayload = await getJwtPayload(req)
 
-  const replyWithSolution = () => {
+  const replyWithSolution = () =>
     res.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify({ solution: SOLUTION_STRING }))
-  }
 
   const appendToSolutionAndReply = (decoded: JwtPayload) => {
     SOLUTION_STRING += decoded['append']
@@ -60,6 +69,9 @@ const requestListener: RequestListener = async (req, res) => {
   }
 }
 
+/**
+ * Creates a listening web server to handle hackattic requests.
+ */
 const createServer = (port: number, host: string) => {
   const server = http.createServer(requestListener)
   server.listen(port, host, () => console.log(`Server running on ${host}@${port}`))
