@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Solutions for challenges in https://hackattic.com/challenges/",
   "main": "index.js",
+  "engines": {
+    "node": ">17"
+  },
   "scripts": {},
   "author": "knl.bhg@gmail.com",
   "license": "ISC",
