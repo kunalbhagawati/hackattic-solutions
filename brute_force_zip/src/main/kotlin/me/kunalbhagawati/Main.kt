@@ -7,6 +7,8 @@ import com.github.kittinunf.fuel.serialization.responseObject
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.flatMap
 import io.github.cdimascio.dotenv.dotenv
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
@@ -47,10 +49,9 @@ fun fetchZip(data: HackatticData): Result<ZipFile, Exception> =
     }
 
 fun getSecret(file: ZipFile): Result<String, Exception> {
-//  file.extractFile()
-//  runBlocking {
-//
-//  }
+  runBlocking {
+    launch {}
+  }
 }
 
 fun postSolution(secret: String) =
