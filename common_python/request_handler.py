@@ -1,6 +1,6 @@
 import requests
 
-from url_builder import fetch_problem_inputs_url, submit_solution_url
+from .url_builder import fetch_problem_inputs_url, submit_solution_url
 
 
 class RequestHandler:

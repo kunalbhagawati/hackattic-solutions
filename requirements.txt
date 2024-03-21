@@ -1,3 +1,4 @@
 requests
 ipython
 python-dotenv
+black
