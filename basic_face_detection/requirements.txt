@@ -1,6 +1,6 @@
 -r ../requirements.txt
 
 dlib
-face-recognition
 numpy
 Pillow
+opencv-python

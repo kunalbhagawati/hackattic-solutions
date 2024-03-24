@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
+import asyncio
 import datetime
 import pathlib
 import time
 from io import BytesIO
 
-import face_recognition
+import cv2
 import requests
 from PIL import Image
 
@@ -12,6 +13,9 @@ from common_python.request_handler import RequestHandler
 
 ARTIFACTS_DIR_NAME = f"artifacts/{datetime.date.today().strftime('%d-%m-%y')}/"
 
+CLASSIFIER = cv2.CascadeClassifier(
+    cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+)
 
 def _crop_from(image: Image.Image, row: int, col: int) -> Image.Image:
     w = image.width / 8
@@ -24,43 +28,44 @@ def _crop_from(image: Image.Image, row: int, col: int) -> Image.Image:
     return image.crop([left, upper, right, lower])
 
 
-def _save_image(image: Image.Image, name: str, format="png"):
+async def _save_image(image: Image.Image, name: str, format="png"):
     with open(f"{ARTIFACTS_DIR_NAME}/{name}.{format}", 'wb') as f:
         image.save(f)
 
 
-def _is_face(image: Image.Image, row: int, col: int) -> bool:
+async def _is_face(image: Image.Image, row: int, col: int) -> bool:
     # get the sub-image from the main image
     cropped = _crop_from(image, row, col)
 
     # Convert to lib compatible image. ---
-    _save_image(cropped, f"{row}-{col}")
-    fr_img = face_recognition.load_image_file(f"{ARTIFACTS_DIR_NAME}/{row}-{col}.png")
+    await _save_image(cropped, f"{row}-{col}")
+
+    img_arr = cv2.imread(f"{ARTIFACTS_DIR_NAME}/{row}-{col}.png")
+    greyed = cv2.cvtColor(img_arr, cv2.COLOR_BGR2GRAY)
     # ---
 
-    locs = face_recognition.face_locations(fr_img)
+    locs = CLASSIFIER.detectMultiScale(greyed, scaleFactor=1.1, minNeighbors=5, minSize=(40, 40))
+
     return len(locs) >= 1
 
 
-def solve(image_url: str):
+async def solve(image_url: str):
     img_raw = requests.get(image_url)
     buffer = BytesIO(img_raw.content)
     img = Image.open(buffer)
-    _save_image(img, f"image")
+    await _save_image(img, f"image")
 
     res = []
 
     for row in range(0, 8):
         for col in range(0, 8):
-            if _is_face(image=img, row=row, col=col):
+            if await _is_face(image=img, row=row, col=col):
                 res.append([row, col])
 
     return res
 
 
-if __name__ == "__main__":
-    """https://hackattic.com/challenges/basic_face_detection"""
-
+async def main():
     print(int(time.time()))
 
     # Setup
@@ -71,7 +76,13 @@ if __name__ == "__main__":
 
     pathlib.Path(ARTIFACTS_DIR_NAME).mkdir(parents=True, exist_ok=True)
 
-    res = solve(image_url)
+    res = await solve(image_url)
     print(res)
     response = handler.submit_solution({"face_tiles": res})
     print(response.json())
+
+
+if __name__ == "__main__":
+    """https://hackattic.com/challenges/basic_face_detection"""
+
+    asyncio.run(main())
