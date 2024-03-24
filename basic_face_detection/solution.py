@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import datetime
 import pathlib
+import time
 from io import BytesIO
 
 import face_recognition
@@ -12,7 +13,7 @@ from common_python.request_handler import RequestHandler
 ARTIFACTS_DIR_NAME = f"artifacts/{datetime.date.today().strftime('%d-%m-%y')}/"
 
 
-def crop_from(image: Image.Image, row: int, col: int) -> Image.Image:
+def _crop_from(image: Image.Image, row: int, col: int) -> Image.Image:
     w = image.width / 8
     h = image.height / 8
 
@@ -28,24 +29,30 @@ def _save_image(image: Image.Image, name: str, format="png"):
         image.save(f)
 
 
+def _is_face(image: Image.Image, row: int, col: int) -> bool:
+    # get the sub-image from the main image
+    cropped = _crop_from(image, row, col)
+
+    # Convert to lib compatible image. ---
+    _save_image(cropped, f"{row}-{col}")
+    fr_img = face_recognition.load_image_file(f"{ARTIFACTS_DIR_NAME}/{row}-{col}.png")
+    # ---
+
+    locs = face_recognition.face_locations(fr_img)
+    return len(locs) >= 1
+
+
 def solve(image_url: str):
     img_raw = requests.get(image_url)
     buffer = BytesIO(img_raw.content)
     img = Image.open(buffer)
-
-    with open(f"{ARTIFACTS_DIR_NAME}/image.png", 'wb') as f:
-        img.save(f)
+    _save_image(img, f"image")
 
     res = []
 
     for row in range(0, 8):
         for col in range(0, 8):
-            # get the sub-image from the main image
-            i = crop_from(img, row, col)
-            _save_image(i, f"{row}-{col}")
-            fr_img = face_recognition.load_image_file(f"{ARTIFACTS_DIR_NAME}/{row}-{col}.png")
-            locs = face_recognition.face_locations(fr_img)
-            if len(locs) >= 1:
+            if _is_face(image=img, row=row, col=col):
                 res.append([row, col])
 
     return res
@@ -53,6 +60,8 @@ def solve(image_url: str):
 
 if __name__ == "__main__":
     """https://hackattic.com/challenges/basic_face_detection"""
+
+    print(int(time.time()))
 
     # Setup
     handler = RequestHandler("basic_face_detection")
