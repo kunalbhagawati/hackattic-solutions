@@ -1,0 +1,6 @@
+-r ../requirements.txt
+
+dlib
+numpy
+Pillow
+opencv-python
