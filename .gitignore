@@ -284,12 +284,12 @@ cython_debug/
 # IDE
 .idea/
 .vscode/
-hackattic-solutions.iml
-basic-console.iml
+**/*.iml
 
 # docker-data
 .docker-data/
 **/.docker-data/
-/mini_miner/mini_miner.iml
 
 artifacts/
+
+!_skeletons/README.md
