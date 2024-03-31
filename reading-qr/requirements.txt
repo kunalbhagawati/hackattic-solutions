@@ -1,4 +1,4 @@
--r ../common_python/requirements.txt
+-r ../_skeletons/requirements.txt
 
 qrcode
 opencv-contrib-python

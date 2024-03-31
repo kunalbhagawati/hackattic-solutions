@@ -1,4 +1,4 @@
--r ../requirements.txt
+-r ../_skeletons/requirements.txt
 
 dlib
 numpy
