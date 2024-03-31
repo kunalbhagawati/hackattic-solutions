@@ -1,8 +1,8 @@
-# NOTE For some reason, this does not work. But the *exact same* implementation in node does. ¯\_(ツ)_/¯
+#!/usr/bin/env python3
 import hashlib
 import json
 
-from request_handler import RequestHandler
+from _libs.python.request_handler import RequestHandler
 
 PROBLEM_NAME = 'mini_miner'
 

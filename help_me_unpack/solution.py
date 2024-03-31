@@ -1,10 +1,11 @@
+#!/usr/bin/env python3
 import base64
 from struct import unpack
 
 import requests
 
-from common_python.url_builder import fetch_problem_inputs_url, submit_solution_url
-from request_handler import RequestHandler
+from _libs.python.url_builder import fetch_problem_inputs_url
+from _libs.python.request_handler import RequestHandler
 
 PROBLEM_NAME = "help_me_unpack"
 

@@ -1,11 +1,12 @@
+#!/usr/bin/env python3
 import base64
 import gzip
 
 import docker
 import psycopg
 
-from config import config
-from request_handler import RequestHandler
+from _libs.python.config import config
+from _libs.python.request_handler import RequestHandler
 
 PROBLEM_NAME = 'backup_restore'
 

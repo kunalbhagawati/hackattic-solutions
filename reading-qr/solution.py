@@ -1,6 +1,7 @@
+#!/usr/bin/env python3
 import cv2
 import requests
-from common_python.url_builder import fetch_problem_inputs_url, submit_solution_url
+from _libs.python.url_builder import fetch_problem_inputs_url, submit_solution_url
 
 PROBLEM_NAME = "reading_qr"
 PNG_FILE_NAME = 'png.png'

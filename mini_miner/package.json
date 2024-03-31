@@ -1,7 +1,0 @@
-{
-  "name": "mini_miner",
-  "version": "1.0.0",
-  "scripts": {
-    "solution": "ts-node -r dotenv/config src/solution.ts dotenv_config_path=../.env"
-  }
-}

@@ -9,3 +9,8 @@ This help setting them up without having to search for config again across the i
 
 All the config files across languages are in the same place, with the understanding that at the end of the day,
 each solution can itself have multiple programming languages as part of it.
+
+## NOTES
+- Node 20 and typescript ESM are incompatible as of now (01/Apr/2024), and so we default to 18 LTS
+  - https://github.com/TypeStrong/ts-node/issues/1997
+  - https://stackoverflow.com/a/76758731/3297499

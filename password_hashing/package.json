@@ -2,9 +2,30 @@
   "name": "password_hashing",
   "version": "1.0.0",
   "scripts": {
-    "start": "ts-node -r dotenv/config src/solution.ts dotenv_config_path=../.env "
+    "start": "dotenv -- tsx ./solution.ts"
+  },
+  "type": "module",
+  "engines": {
+    "node": "^18.20.0"
   },
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^0.27.2",
+    "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.1",
+    "eslint-config-prettier": "^9.1.0",
+    "jwt-simple": "^0.5.6",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
+    "ramda": "^0.29.1",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.3",
+    "eslint": "^8.57.0"
+  },
+  "devDependencies": {
+    "@types/jwt-simple": "^0.5.33",
+    "@types/node": "^20.12.2",
+    "@types/ramda": "^0.29.12",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0"
   }
 }

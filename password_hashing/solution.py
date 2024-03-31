@@ -3,7 +3,7 @@ import hashlib
 import hmac
 import scrypt as sc
 
-from common_python.request_handler import RequestHandler
+from _libs.python.request_handler import RequestHandler
 
 PROBLEM_NAME = 'password_hashing'
 

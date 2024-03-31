@@ -9,9 +9,9 @@ import cv2
 import requests
 from PIL import Image
 
-from common_python.request_handler import RequestHandler
+from _libs.python.request_handler import RequestHandler
 
-ARTIFACTS_DIR_NAME = f"artifacts/{datetime.date.today().strftime('%d-%m-%y')}/"
+ARTIFACTS_DIR_NAME = f"_artifacts/{datetime.date.today().strftime('%d-%m-%y')}/"
 
 CLASSIFIER = cv2.CascadeClassifier(
     cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
