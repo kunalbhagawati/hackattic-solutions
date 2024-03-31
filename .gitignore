@@ -293,3 +293,5 @@ basic-console.iml
 /mini_miner/mini_miner.iml
 
 artifacts/
+
+!_skeletons/README.md
